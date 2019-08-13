@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwua.storesystem.mapper.PermissionMapper">
+
+    <resultMap id="PermissionResultMapper" type="permission">
+        <id column="permission_id" property="permissionId"/>
+        <id column="parent_id" property="parentId"/>
+        <id column="name" property="name"/>
+        <id column="url" property="url"/>
+        <collection property="children"
+                    column="permission_id"
+                    ofType="permission"
+                    select="queryByPermissionId"/>
+    </resultMap>
+
+    <select id="queryByRoleIds" resultMap="PermissionResultMapper" parameterType="int">
+        SELECT * FROM permission, role_permission WHERE permission.permission_id = role_permission.permission_id AND role_id IN (
+        <foreach collection="list" item="roleId" index="index" separator=",">
+            #{roleId}
+        </foreach>
+            )
+    </select>
+
+    <select id="queryByPermissionId" parameterType="int" resultType="permission">
+        SELECT * FROM permission WHERE parent_id = #{permissionId}
+    </select>
+
+    <select id="queryAll" resultMap="PermissionResultMapper">
+        SELECT * FROM permission WHERE parent_id = 0
+    </select>
+</mapper>

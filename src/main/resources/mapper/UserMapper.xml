@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwua.storesystem.mapper.UserMapper">
+
+    <select id="queryAll" resultType="user">
+        SELECT * FROM user
+    </select>
+
+    <select id="queryById" resultType="user" parameterType="int">
+        SELECT * FROM user WHERE user_id = #{userId}
+    </select>
+
+    <update id="doUpdatePassword" parameterType="user">
+        UPDATE user SET password = #{password} WHERE user_id = #{userId}
+    </update>
+
+    <insert id="doInsert" parameterType="user">
+        INSERT INTO user (username, password, gender, tel, email, address, balance, sign, url)
+        VALUES (#{username}, #{password}, #{gender}, #{tel}, #{email}, #{address}, #{balance}, #{sign}, #{url})
+    </insert>
+
+    <update id="doUpdate" parameterType="user">
+        UPDATE user set username = #{username}, gender = #{gender}, tel = #{tel}, email = #{email}, address = #{address}, sign = #{sign} WHERE user_id = #{userId}
+    </update>
+
+    <update id="doUpdateStart" parameterType="int">
+        UPDATE user SET status = 1 WHERE user_id = #{userId}
+    </update>
+
+    <update id="doUpdateStop" parameterType="int">
+        UPDATE user SET status = 0 WHERE user_id = #{userId}
+    </update>
+
+    <delete id="doDelete" parameterType="int">
+        DELETE FROM user WHERE user_id = #{userId}
+    </delete>
+
+    <select id="queryUserDel" resultType="user">
+        SELECT * FROM user WHERE status = 0
+    </select>
+</mapper>

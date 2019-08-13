@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwua.storesystem.mapper.ManagerMapper">
+
+    <resultMap id="ManagerResultMap" type="manager">
+        <id column="manager_id" property="managerId"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="tel" column="tel"/>
+        <result property="email" column="email"/>
+        <result property="addTime" column="add_time"/>
+        <result property="status" column="status"/>
+        <collection property="roles"
+                    column="manager_id"
+                    ofType="role"
+                    select="com.hwua.storesystem.mapper.RoleMapper.queryByManagerId"/>
+    </resultMap>
+
+    <select id="queryAll" resultMap="ManagerResultMap">
+        SELECT * FROM manager
+    </select>
+    <select id="queryByName" parameterType="string" resultMap="ManagerResultMap">
+        SELECT * FROM manager WHERE name=#{name} AND status = 1
+    </select>
+
+    <insert id="doInsert" parameterType="manager" useGeneratedKeys="true" keyProperty="managerId">
+        INSERT INTO manager (name, password, tel, email, gender) VALUES (#{name}, #{password}, #{tel}, #{email}, #{gender})
+    </insert>
+
+    <update id="doUpdate" parameterType="manager">
+        UPDATE manager SET name=#{name},password=#{password},tel=#{tel},email=#{email},gender=#{gender} WHERE manager_id = #{managerId}
+    </update>
+
+    <delete id="doDelete" parameterType="int">
+        DELETE FROM manager WHERE manager_id = #{managerId}
+    </delete>
+
+    <update id="doUpdateStart" parameterType="int">
+        UPDATE manager SET status = 1 WHERE manager_id = #{managerId}
+    </update>
+
+    <update id="doUpdateStop" parameterType="int">
+        UPDATE manager SET status = 0 WHERE manager_id = #{managerId}
+    </update>
+
+    <select id="queryById" parameterType="int" resultType="manager">
+        SELECT * FROM manager WHERE manager_id = #{managerId}
+    </select>
+
+    <select id="queryByRoleId" parameterType="int" resultType="manager">
+        SELECT manager.* FROM manager,manager_role WHERE manager.manager_id = manager_role.manager_id AND manager_role.role_id = #{roleId}
+    </select>
+
+
+</mapper>

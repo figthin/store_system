@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwua.storesystem.mapper.CommentMapper">
+
+    <select id="queryAll" resultType="map">
+        SELECT comment.*, user.user_id user_id,username,product.name  FROM comment,user,product WHERE comment.user_id = user.user_id AND comment.product_id = product.product_id
+    </select>
+
+</mapper>

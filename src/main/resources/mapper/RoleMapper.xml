@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwua.storesystem.mapper.RoleMapper">
+
+
+    <resultMap id="RoleMapperResult" type="role">
+        <id column="role_id" property="roleId"/>
+        <id column="name" property="name"/>
+        <id column="description" property="description"/>
+        <id column="add_time" property="addTime"/>
+        <collection property="manager"
+                    column="role_id"
+                    ofType="manager"
+                    select="com.hwua.storesystem.mapper.ManagerMapper.queryByRoleId"/>
+    </resultMap>
+
+    <select id="queryByManagerId" parameterType="int" resultType="role">
+        SELECT role.* FROM manager,role,manager_role WHERE manager.manager_id=manager_role.manager_id AND role.role_id = manager_role.role_id AND manager.manager_id = #{managerId}
+    </select>
+
+    <select id="queryAll" resultMap="RoleMapperResult">
+        SELECT * FROM role
+    </select>
+
+    <insert id="doInsert" parameterType="role">
+        INSERT INTO role (name, description) VALUES (#{name}, #{description})
+    </insert>
+
+    <delete id="doDelete" parameterType="int">
+        DELETE FROM role WHERE role_id = #{roleId}
+    </delete>
+
+    <select id="queryByRoleId" parameterType="int" resultType="role">
+        SELECT * FROM role WHERE role_id = #{roleId}
+    </select>
+
+    <update id="doUpdate" parameterType="role">
+        UPDATE role SET name = #{name}, description = #{description} WHERE role_id = #{roleId}
+    </update>
+</mapper>

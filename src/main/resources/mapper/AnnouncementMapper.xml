@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwua.storesystem.mapper.AnnouncementMapper">
+
+    <select id="queryAll" resultType="map">
+        SELECT announcement.*,announcement_class.name className,manager.name managerName FROM announcement, announcement_class, manager WHERE announcement.class_id = announcement_class.announcement_class_id AND announcement.manager_id = manager.manager_id
+    </select>
+
+</mapper>

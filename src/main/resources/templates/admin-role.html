@@ -1,0 +1,128 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<div th:replace="_meta" xmlns:th="http://www.thymeleaf.org">
+
+</div>
+<!--<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="favicon.ico" >
+<link rel="Shortcut Icon" href="favicon.ico" />
+&lt;!&ndash;[if lt IE 9]>
+<script type="text/javascript" src="lib/html5.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]&ndash;&gt;
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+&lt;!&ndash;[if IE 6]>
+<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>-->
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>角色管理 - 管理员管理 - H-ui.admin v3.0</title>
+<meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+<body xmlns:th="http://www.thymeleaf.org">
+<!--_header 作为公共模版分离出去-->
+<header th:replace="_header" class="navbar-wrapper">
+
+</header>
+<!--/_header 作为公共模版分离出去-->
+
+<!--_menu 作为公共模版分离出去-->
+<div th:replace="_menu">
+
+</div>
+<!--/_menu 作为公共模版分离出去-->
+
+<section class="Hui-article-box">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 管理员管理 <span class="c-gray en">&gt;</span> 角色管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="cl pd-5 bg-1 bk-gray"> <span class="l"> <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a class="btn btn-primary radius" href="javascript:;" onclick="admin_role_add('添加角色','admin-role-add','800')"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a> </span> <span class="r">共有数据：<strong>54</strong> 条</span> </div>
+			<div class="mt-10">
+			<table class="table table-border table-bordered table-hover table-bg">
+				<thead>
+					<tr>
+						<th scope="col" colspan="6">角色管理</th>
+					</tr>
+					<tr class="text-c">
+						<th width="25"><input type="checkbox" value="" name=""></th>
+						<th width="40">ID</th>
+						<th width="200">角色名</th>
+						<th>用户列表</th>
+						<th width="300">描述</th>
+						<th width="70">操作</th>
+					</tr>
+				</thead>
+				<tbody th:each="role : ${roles}">
+					<tr class="text-c">
+						<td><input type="checkbox" value="" name=""></td>
+						<td th:text="${role.roleId}">1</td>
+						<td th:text="${role.name}">超级管理员</td>
+						<td><a th:each="manager : ${role.manager}"><span href="#" th:text="${manager.name}">admin</span>,</a></td>
+						<td th:text="${role.description}">拥有至高无上的权利</td>
+						<td class="f-14"><a title="编辑" href="javascript:;" th:roleId="${role.roleId}" onclick="admin_role_edit('角色编辑','admin-role-add',this.getAttribute('roleId'))" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" th:roleId="${role.roleId}" href="javascript:;" onclick="admin_role_del(this,this.getAttribute('roleId'))" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</article>
+	</div>
+</section>
+
+<!--_footer 作为公共模版分离出去-->
+<div th:replace="_footer">
+
+</div>
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+/*管理员-角色-添加*/
+function admin_role_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+/*管理员-角色-编辑*/
+function admin_role_edit(title,url,id,w,h){
+	url = url + "?roleId="+id;
+	layer_show(title,url,w,h);
+}
+/*管理员-角色-删除*/
+function admin_role_del(obj,id){
+	layer.confirm('角色删除须谨慎，确认要删除吗？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
+
+		$.ajax({
+			url:"admin-role-del",
+			type:'post',
+			data:{
+				roleId:id
+			},
+			success:function (res) {
+				if (res.result) {
+					$(obj).parents("tr").remove();
+					layer.msg('已删除!',{icon:1,time:1000});
+				}else {
+					layer.msg('删除失败');
+				}
+			}
+		});
+	});
+}
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
